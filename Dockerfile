@@ -3,5 +3,7 @@ WORKDIR /work
 ENV DBHOST=mysql
 ENV DBURL=mydb.com
 COPY ./spring-music.jar ./code/spring-music.jar
+EXPOSE 8081
+EXPOSE 8080
 WORKDIR /work/code
 CMD java -jar -Dspring.profiles.active=none spring-music.jar
