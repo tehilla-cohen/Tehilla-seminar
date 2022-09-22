@@ -1,0 +1,27 @@
+FROM python:latest as builder
+RUN echo " Installing libs"
+WORKDIR /srcode
+COPY ./test ./test
+COPY ./srcode/* ./
+RUN echo " Building "
+
+FROM alpine:latest as unitest
+WORKDIR /unitest
+COPY --from builder /srcode/test ./test
+RUN echo "Running unitest" > ./test
+
+FROM alpine:latest as sonarsecurity
+WORKDIR /sonar
+COPY --from builder /srcode/* ./
+COPY --from unitest /unitest/test ./test
+RUN echo "Running sonar" >> ./test
+
+FROM alpine:latest as emailreports
+WORKDIR /reports
+COPY --from sonarsecurity /sonar/test ./test
+RUN echo "Sending with reports" >> ./test
+
+FROM alpine:latest as webapp
+WORKDIR /code
+COPY --from builder /srcode/*py ./
+CMD ls ./ && sleep 30
