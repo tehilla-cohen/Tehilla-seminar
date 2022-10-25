@@ -1,10 +1,11 @@
+FROM alpine:latest as pre-build
+COPY ./helloworld.txt ./code/helloworld.txt
+RUN echo "this is a PRE-BUILD step"
+
 FROM alpine:latest as build
-RUN echo "this is build step"
-COPY ./file /code/file
-RUN echo "hello" > /code/file
+COPY --from=pre-build ./code/helloworld.txt ./build/helloworld.txt
+RUN echo "this is a build step"
 
 FROM alpine:latest as test
-RUN echo "this is test step"
-COPY --from=build /code/file ./test/file
-RUN ls -ltrh ./test/
-RUN cat ./test/file
+COPY --from=build ./build/helloworld.txt ./test/helloworld.txt
+RUN echo "this is a test step"
