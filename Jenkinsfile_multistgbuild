@@ -2,45 +2,9 @@ pipeline {
     agent any
 
     stages {
-        stage('Pre-build stg') {
+        stage('multistgbuild without buildkit) {
             steps {
-                sh 'docker build -t tehilla:latest --target pre-build .'
+                sh 'docker build -t tehilla:latest .'
             }
         }
-        stage('Build') {
-            steps {
-                sh 'docker build -t tehilla:latest --target build .'
-            }
-        }
-        stage('Test') {
-            steps {
-                sh 'docker build -t tehilla:latest --target test .'
-            }
-        }
-        stage('Security') {
-            steps {
-                sh 'docker build -t tehilla:latest --target security .'
-            }
-        }
-        stage('Back-end') {
-            steps {
-                sh 'docker build -t tehilla:latest --target back-end .'
-            }
-        }
-        stage('Front-end') {
-            steps {
-                sh 'docker build -t tehilla:latest --target front-end .'
-            }
-        }
-        stage('Deploy') {
-            steps {
-                sh 'docker build -t tehilla:latest --target deploy .'
-            }    
-        }
-        stage('Post') {
-            steps {
-                sh 'docker build -t tehilla:latest --target post .'
-            }
-        }                
-    }
 }
