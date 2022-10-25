@@ -4,44 +4,18 @@ pipeline {
     stages {
         stage('Pre-build stg') {
             steps {
-                echo 'Prebuild actions..'
+                sh 'DOCKER_BUILDKIT=1 docker build -t tehilla:latest --target pre-build --no-cache .'
             }
         }
         stage('Build') {
             steps {
-                sh 'DOCKER_BUILDKIT=1 docker build -t tehilla:latest --target build .'
+                sh 'DOCKER_BUILDKIT=1 docker build -t tehilla:latest --target build --no-cache .'
             }
         }
         stage('Test') {
             steps {
-                sh 'DOCKER_BUILDKIT=1 docker build -t elad:latest --target test .'
-            }
-        }
-        stage('Security') {
-            steps {
-                sh 'echo "docker build --target security"'
-            }
-        }
-        stage('Back-end') {
-            steps {
-                sh 'echo "docker build --target backend"'
-            }
-        }
-        stage('Front-end') {
-            steps {
-                sh 'docker build --target Front-end'
-            }
-        }
-        stage('Deploy') {
-            steps {
-                sh 'echo "docker build --target deploy"'
-            }
-        }
-        stage('Post') {
-            steps {
-                echo "Clear env"
+                sh 'DOCKER_BUILDKIT=1 docker build -t tehilla:latest --target test --no-cache .'
             }
         }
     }
 }
-
