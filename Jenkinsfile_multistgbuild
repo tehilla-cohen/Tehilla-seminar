@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     stages {
-        stage('multistgbuild without buildkit) {
+        stage('multistgbuild without buildkit') {
             steps {
                 sh 'docker build -t tehilla:latest .'
             }
