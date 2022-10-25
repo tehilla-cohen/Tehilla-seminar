@@ -9,12 +9,12 @@ pipeline {
         }
         stage('Build') {
             steps {
-              sh 'echo "docker build --target Build"'
+                sh 'DOCKER_BUILDKIT=1 docker build -t tehilla:latest --target build .'
             }
         }
         stage('Test') {
             steps {
-                sh 'echo "docker build --target test"'
+                sh 'DOCKER_BUILDKIT=1 docker build -t elad:latest --target test .'
             }
         }
         stage('Security') {
